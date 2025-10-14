@@ -34,6 +34,15 @@ qt_internal_extend_target(SerialPort CONDITION QT_FEATURE_libudev AND UNIX
        PkgConfig::Libudev
 )
 
+qt_internal_extend_target(SerialPort CONDITION ANDROID
+    SOURCES
+        qserialport_android.cpp
+    INCLUDE_DIRECTORIES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../native
+    LIBRARIES
+        nativebridge
+)
+
 qt_internal_extend_target(SerialPort CONDITION WIN32
     SOURCES
         qserialport_win.cpp
@@ -45,7 +54,7 @@ qt_internal_extend_target(SerialPort CONDITION WIN32
         setupapi
 )
 
-qt_internal_extend_target(SerialPort CONDITION UNIX
+qt_internal_extend_target(SerialPort CONDITION UNIX AND NOT ANDROID
     SOURCES
         qserialport_unix.cpp
 )

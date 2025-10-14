@@ -25,4 +25,4 @@ if(ANDROID)
 endif()
 
 # Expose the library for linking with other targets if needed
-install(TARGETS nativebridge)
+install(TARGETS nativebridge EXPORT Qt6SerialPortTargets)
