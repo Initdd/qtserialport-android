@@ -23,3 +23,4 @@ CMakeSettings.json
 out/*
 CMakeLists.txt.user*
 CMakeUserPresets.json
+build
