@@ -74,7 +74,7 @@ qt_internal_add_docs(SerialPort
 
 if(ANDROID)
     # On Android, make sure we package the Kotlin/Java classes into the APK
-    set_target_properties(SerialPort PROPERTIES
+    set_target_properties(nativebridge PROPERTIES
         QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../android
     )
 endif()
