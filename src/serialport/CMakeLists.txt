@@ -72,3 +72,9 @@ qt_internal_add_docs(SerialPort
     doc/qtserialport.qdocconf
 )
 
+if(ANDROID)
+    # On Android, make sure we package the Kotlin/Java classes into the APK
+    set_target_properties(SerialPort PROPERTIES
+        QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../android
+    )
+endif()
