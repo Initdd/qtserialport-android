@@ -27,7 +27,7 @@ qt_internal_add_module(SerialPort
 ## Scopes:
 #####################################################################
 
-qt_internal_extend_target(SerialPort CONDITION QT_FEATURE_libudev AND UNIX
+qt_internal_extend_target(SerialPort CONDITION QT_FEATURE_libudev AND UNIX AND NOT ANDROID
    DEFINES
        LINK_LIBUDEV
    LIBRARIES
@@ -84,6 +84,11 @@ qt_internal_add_docs(SerialPort
 
 if(ANDROID)
     # On Android, make sure we package the Kotlin/Java classes into the APK
+    # Set this on the SerialPort module so apps using it will include the Android sources
+    set_target_properties(SerialPort PROPERTIES
+        QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../android
+    )
+    # Also set it on nativebridge for completeness
     set_target_properties(nativebridge PROPERTIES
         QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../android
     )
