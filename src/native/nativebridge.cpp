@@ -169,3 +169,65 @@ bool NativeBridge::setBreakEnabled(bool set) {
     );
     return result == JNI_TRUE;
 }
+
+QStringList NativeBridge::getAvailablePorts() {
+    QStringList portList;
+    
+    qDebug() << "[NativeBridge] getAvailablePorts() called";
+    
+    // Get the Android context
+    QJniObject activity = QJniObject::callStaticObjectMethod(
+        "org/qtproject/qt/android/QtNative",
+        "activity",
+        "()Landroid/app/Activity;"
+    );
+
+    if (!activity.isValid()) {
+        qWarning() << "[NativeBridge] Failed to get Android activity";
+        return portList;
+    }
+    
+    qDebug() << "[NativeBridge] Got Android activity, calling SerialHelper.availablePorts()";
+
+    // Call the Kotlin method to get available ports
+    QJniObject portListObj = QJniObject::callStaticObjectMethod(
+        "org/example/SerialHelper",
+        "availablePorts",
+        "(Landroid/content/Context;)Ljava/util/List;",
+        activity.object()
+    );
+
+    if (!portListObj.isValid()) {
+        qWarning() << "[NativeBridge] SerialHelper.availablePorts() returned invalid object";
+        return portList;
+    }
+    
+    qDebug() << "[NativeBridge] Got port list object, converting to QStringList";
+
+    // Convert Java List to QStringList
+    QJniEnvironment env;
+    jobject jList = portListObj.object();
+    
+    jclass listClass = env->FindClass("java/util/List");
+    jmethodID sizeMethod = env->GetMethodID(listClass, "size", "()I");
+    jmethodID getMethod = env->GetMethodID(listClass, "get", "(I)Ljava/lang/Object;");
+    
+    jint size = env->CallIntMethod(jList, sizeMethod);
+    
+    qDebug() << "[NativeBridge] Java list has" << size << "item(s)";
+    
+    for (jint i = 0; i < size; ++i) {
+        QJniObject portNameObj = env->CallObjectMethod(jList, getMethod, i);
+        QString portName = portNameObj.toString();
+        qDebug() << "[NativeBridge] Port" << i << ":" << portName;
+        if (!portName.isEmpty()) {
+            portList.append(portName);
+        }
+    }
+    
+    env->DeleteLocalRef(listClass);
+    
+    qDebug() << "[NativeBridge] Returning" << portList.size() << "port(s):" << portList;
+    
+    return portList;
+}

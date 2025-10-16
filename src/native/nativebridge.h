@@ -4,6 +4,7 @@
 #include <jni.h>
 #include <QtCore/QJniObject>
 #include <QtCore/QJniEnvironment>
+#include <QtCore/QStringList>
 
 class NativeBridge {
 public:
@@ -23,6 +24,7 @@ public:
     static int getPinoutSignals();
     static qint64 bytesAvailable();
     static bool setBreakEnabled(bool set);
+    static QStringList getAvailablePorts();
 };
 
 #endif // NATIVEBRIDGE_H

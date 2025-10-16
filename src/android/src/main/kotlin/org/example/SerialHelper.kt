@@ -215,5 +215,12 @@ class SerialHelper {
                 false
             }
         }
+
+        @JvmStatic
+        fun availablePorts(context: Context): List<String> {
+            val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
+            val drivers = UsbSerialProber.getDefaultProber().findAllDrivers(usbManager)
+            return drivers.map { it.device.deviceName }
+        }
     }
 }

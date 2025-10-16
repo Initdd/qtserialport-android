@@ -37,6 +37,7 @@ qt_internal_extend_target(SerialPort CONDITION QT_FEATURE_libudev AND UNIX
 qt_internal_extend_target(SerialPort CONDITION ANDROID
     SOURCES
         qserialport_android.cpp
+        qserialportinfo_android.cpp
     INCLUDE_DIRECTORIES
         ${CMAKE_CURRENT_SOURCE_DIR}/../native
     LIBRARIES
@@ -72,7 +73,7 @@ qt_internal_extend_target(SerialPort CONDITION FREEBSD
         qserialportinfo_freebsd.cpp
 )
 
-qt_internal_extend_target(SerialPort CONDITION UNIX AND NOT FREEBSD AND NOT MACOS
+qt_internal_extend_target(SerialPort CONDITION UNIX AND NOT FREEBSD AND NOT MACOS AND NOT ANDROID
     SOURCES
         qserialportinfo_unix.cpp
 )
