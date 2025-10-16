@@ -3,9 +3,12 @@
 #include <QtCore/QJniEnvironment>
 #include <QDebug>
 
+#define CLASS_NAME "org/qtproject/example"
+
 bool NativeBridge::openSerial(int baudRate) {
+    // Open serial connection
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "openSerial",
         "(I)Z",
         static_cast<jint>(baudRate)
@@ -18,7 +21,7 @@ int NativeBridge::writeSerial(const QByteArray &data) {
     jbyteArray jData = env->NewByteArray(data.size());
     env->SetByteArrayRegion(jData, 0, data.size(), reinterpret_cast<const jbyte*>(data.constData()));
     jint result = QJniObject::callStaticMethod<jint>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "writeSerial",
         "([B)I",
         jData
@@ -29,7 +32,7 @@ int NativeBridge::writeSerial(const QByteArray &data) {
 
 QByteArray NativeBridge::readSerial(int maxLen) {
     QJniObject jResult = QJniObject::callStaticObjectMethod(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "readSerial",
         "(I)[B",
         maxLen
@@ -46,7 +49,7 @@ QByteArray NativeBridge::readSerial(int maxLen) {
 
 bool NativeBridge::closeSerial() {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "closeSerial",
         "()Z"
     );
@@ -55,7 +58,7 @@ bool NativeBridge::closeSerial() {
 
 bool NativeBridge::setBaudRate(int baudRate) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setBaudRate",
         "(I)Z",
         static_cast<jint>(baudRate)
@@ -65,7 +68,7 @@ bool NativeBridge::setBaudRate(int baudRate) {
 
 bool NativeBridge::setDataBits(int dataBits) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setDataBits",
         "(I)Z",
         static_cast<jint>(dataBits)
@@ -75,7 +78,7 @@ bool NativeBridge::setDataBits(int dataBits) {
 
 bool NativeBridge::setParity(int parity) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setParity",
         "(I)Z",
         static_cast<jint>(parity)
@@ -85,7 +88,7 @@ bool NativeBridge::setParity(int parity) {
 
 bool NativeBridge::setStopBits(int stopBits) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setStopBits",
         "(I)Z",
         static_cast<jint>(stopBits)
@@ -95,7 +98,7 @@ bool NativeBridge::setStopBits(int stopBits) {
 
 bool NativeBridge::setFlowControl(int flowControl) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setFlowControl",
         "(I)Z",
         static_cast<jint>(flowControl)
@@ -105,7 +108,7 @@ bool NativeBridge::setFlowControl(int flowControl) {
 
 bool NativeBridge::flush() {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "flush",
         "()Z"
     );
@@ -114,7 +117,7 @@ bool NativeBridge::flush() {
 
 bool NativeBridge::clear(int directions) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "clear",
         "(I)Z",
         static_cast<jint>(directions)
@@ -124,7 +127,7 @@ bool NativeBridge::clear(int directions) {
 
 bool NativeBridge::setDataTerminalReady(bool set) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setDataTerminalReady",
         "(Z)Z",
         static_cast<jboolean>(set)
@@ -134,7 +137,7 @@ bool NativeBridge::setDataTerminalReady(bool set) {
 
 bool NativeBridge::setRequestToSend(bool set) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setRequestToSend",
         "(Z)Z",
         static_cast<jboolean>(set)
@@ -144,7 +147,7 @@ bool NativeBridge::setRequestToSend(bool set) {
 
 int NativeBridge::getPinoutSignals() {
     jint result = QJniObject::callStaticMethod<jint>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "getPinoutSignals",
         "()I"
     );
@@ -153,7 +156,7 @@ int NativeBridge::getPinoutSignals() {
 
 qint64 NativeBridge::bytesAvailable() {
     jlong result = QJniObject::callStaticMethod<jlong>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "bytesAvailable",
         "()J"
     );
@@ -162,7 +165,7 @@ qint64 NativeBridge::bytesAvailable() {
 
 bool NativeBridge::setBreakEnabled(bool set) {
     jboolean result = QJniObject::callStaticMethod<jboolean>(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "setBreakEnabled",
         "(Z)Z",
         static_cast<jboolean>(set)
@@ -191,7 +194,7 @@ QStringList NativeBridge::getAvailablePorts() {
 
     // Call the Kotlin method to get available ports
     QJniObject portListObj = QJniObject::callStaticObjectMethod(
-        "org/example/SerialHelper",
+        CLASS_NAME "/SerialHelper",
         "availablePorts",
         "(Landroid/content/Context;)Ljava/util/List;",
         activity.object()

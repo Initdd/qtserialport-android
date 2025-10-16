@@ -14,6 +14,7 @@ buildscript {
 repositories {
     google()
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 apply plugin: qtGradlePluginType
@@ -24,6 +25,8 @@ dependencies {
     //noinspection GradleDependency
     implementation 'androidx.core:core:1.16.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.20"
+    // USB Serial library for Android serial communication
+    implementation 'com.github.mik3y:usb-serial-for-android:3.8.0'
 }
 
 android {
