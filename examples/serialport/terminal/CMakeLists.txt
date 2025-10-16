@@ -33,6 +33,13 @@ target_link_libraries(terminal PRIVATE
     Qt::Widgets
 )
 
+# On Android, include the SerialPort module's Android Java/Kotlin sources
+if(ANDROID)
+    set_target_properties(terminal PROPERTIES
+        QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/android
+    )
+endif()
+
 # Resources:
 set(terminal_resource_files
     "images/application-exit.png"
