@@ -1,14 +1,16 @@
 #ifndef NATIVEBRIDGE_H
 #define NATIVEBRIDGE_H
 
+#ifdef Q_OS_ANDROID
 #include <jni.h>
 #include <QtCore/QJniObject>
 #include <QtCore/QJniEnvironment>
+#endif
 #include <QtCore/QStringList>
 
 class NativeBridge {
 public:
-    static bool openSerial(int baudRate);
+    static bool openSerial(const QString &deviceName);
     static int writeSerial(const QByteArray &data);
     static QByteArray readSerial(int maxLen);
     static bool closeSerial();

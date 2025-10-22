@@ -24,19 +24,6 @@ if(ANDROID)
     )
 
     # Expose the library for linking with other targets if needed
+
     install(TARGETS nativebridge EXPORT Qt6SerialPortTargets)
 endif()
-
-target_include_directories(nativebridge PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-
-target_link_libraries(nativebridge PRIVATE Qt6::Core)
-
-if(ANDROID)
-    # On Android, make sure we package the Kotlin/Java classes into the APK
-    set_target_properties(nativebridge PROPERTIES
-        QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../android
-    )
-endif()
-
-# Expose the library for linking with other targets if needed
-install(TARGETS nativebridge EXPORT Qt6SerialPortTargets)

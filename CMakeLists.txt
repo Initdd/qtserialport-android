@@ -38,3 +38,5 @@ if(EMSCRIPTEN)
     return()
 endif()
 qt_build_repo()
+
+add_subdirectory(examples)

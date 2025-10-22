@@ -3,8 +3,8 @@
 
 QtWrapper::QtWrapper(QObject *parent) : QObject(parent) {}
 
-bool QtWrapper::openSerial(int baudRate) {
-    return NativeBridge::openSerial(baudRate);
+bool QtWrapper::openSerial(const QString &deviceName) {
+    return NativeBridge::openSerial(deviceName);
 }
 
 int QtWrapper::writeSerial(const QByteArray &data) {

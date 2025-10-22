@@ -5,13 +5,27 @@
 
 #define CLASS_NAME "org/qtproject/example"
 
-bool NativeBridge::openSerial(int baudRate) {
-    // Open serial connection
+bool NativeBridge::openSerial(const QString &deviceName) {
+    // Get the Android context
+    QJniObject activity = QJniObject::callStaticObjectMethod(
+        "org/qtproject/qt/android/QtNative",
+        "activity",
+        "()Landroid/app/Activity;"
+    );
+
+    if (!activity.isValid()) {
+        qWarning() << "[NativeBridge] Failed to get Android activity";
+        return false;
+    }
+
+    QJniObject jDeviceName = QJniObject::fromString(deviceName);
+    
     jboolean result = QJniObject::callStaticMethod<jboolean>(
         CLASS_NAME "/SerialHelper",
         "openSerial",
-        "(I)Z",
-        static_cast<jint>(baudRate)
+        "(Landroid/content/Context;Ljava/lang/String;)Z",
+        activity.object(),      // Android context
+        jDeviceName.object()    // Device name
     );
     return result == JNI_TRUE;
 }

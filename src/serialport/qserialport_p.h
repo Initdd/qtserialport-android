@@ -236,6 +236,13 @@ public:
     bool completeAsyncWrite();
     void handleException();
 
+#ifdef Q_OS_ANDROID
+    // Android-specific: polling mechanism for USB serial data
+    void pollForIncomingData();
+    QTimer *readTimer = nullptr;
+    qint64 readData(char *data, qint64 maxSize);
+#endif
+
     struct termios restoredTermios;
     int descriptor = -1;
 
